@@ -84,7 +84,7 @@
                 		Margin="10,10,0,0"
                 		TextWrapping="Wrap"
                 		VerticalAlignment="Top"
-                		Width="471" Height="247"><Run Text="Parallel Coordinates: A data visualization method."/><LineBreak/><Run/><LineBreak/><Run Text="Developed By"/><Run Text=" "/><LineBreak/><Run Text="        Aaron Battershell"/><LineBreak/><Run/><LineBreak/><Run Text="Written With"/><LineBreak/><Run Text="        Windows Presentation Foundation (WPF)"/><LineBreak/><Run/><LineBreak/><Run Text="View the source at"/><LineBreak/><Run Text="        GitHub.com/AaronBattershell/Projects/tree/master/ParallelCordinates"/><LineBreak/><Run/><LineBreak/><Run/><LineBreak/><Run Text="(ɔ) 2015 Aaron Battershell"/><LineBreak/><Run/><LineBreak/><Run/></TextBlock>
+                		Width="471" Height="247"><Run Text="Parallel Coordinates: A data visualization method."/><LineBreak/><Run/><LineBreak/><Run Text="Developed By"/><Run Text=" "/><LineBreak/><Run Text="        Aaron Battershell"/><LineBreak/><Run/><LineBreak/><Run Text="Written With"/><LineBreak/><Run Text="        Windows Presentation Foundation (WPF)"/><LineBreak/><Run/><LineBreak/><Run Text="View the source at"/><LineBreak/><Run Text="        GitHub.com/AaronBattershell/ParallelCoordinates"/><LineBreak/><Run/><LineBreak/><Run/><LineBreak/><Run Text="(ɔ) 2015 Aaron Battershell"/><LineBreak/><Run/><LineBreak/><Run/></TextBlock>
                 </Grid>
             </TabItem>
         </TabControl>
