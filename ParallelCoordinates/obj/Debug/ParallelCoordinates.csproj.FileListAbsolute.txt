@@ -1,0 +1,42 @@
+c:\users\flander\documents\visual studio 2013\Projects\ParallelCordinates\ParallelCordinates\bin\Debug\ParallelCordinates.exe.config
+c:\users\flander\documents\visual studio 2013\Projects\ParallelCordinates\ParallelCordinates\bin\Debug\ParallelCordinates.exe
+c:\users\flander\documents\visual studio 2013\Projects\ParallelCordinates\ParallelCordinates\bin\Debug\ParallelCordinates.pdb
+c:\users\flander\documents\visual studio 2013\Projects\ParallelCordinates\ParallelCordinates\bin\Debug\Excel.dll
+c:\users\flander\documents\visual studio 2013\Projects\ParallelCordinates\ParallelCordinates\obj\Debug\DataView.baml
+c:\users\flander\documents\visual studio 2013\Projects\ParallelCordinates\ParallelCordinates\obj\Debug\MainWindow.baml
+c:\users\flander\documents\visual studio 2013\Projects\ParallelCordinates\ParallelCordinates\obj\Debug\DataView.g.cs
+c:\users\flander\documents\visual studio 2013\Projects\ParallelCordinates\ParallelCordinates\obj\Debug\MainWindow.g.cs
+c:\users\flander\documents\visual studio 2013\Projects\ParallelCordinates\ParallelCordinates\obj\Debug\App.g.cs
+c:\users\flander\documents\visual studio 2013\Projects\ParallelCordinates\ParallelCordinates\obj\Debug\ParallelCordinates_MarkupCompile.cache
+c:\users\flander\documents\visual studio 2013\Projects\ParallelCordinates\ParallelCordinates\obj\Debug\ParallelCordinates.g.resources
+c:\users\flander\documents\visual studio 2013\Projects\ParallelCordinates\ParallelCordinates\obj\Debug\ParallelCordinates.Properties.Resources.resources
+c:\users\flander\documents\visual studio 2013\Projects\ParallelCordinates\ParallelCordinates\obj\Debug\ParallelCoordinates.csproj.GenerateResource.Cache
+c:\users\flander\documents\visual studio 2013\Projects\ParallelCordinates\ParallelCordinates\obj\Debug\ParallelCordinates.exe
+c:\users\flander\documents\visual studio 2013\Projects\ParallelCordinates\ParallelCordinates\obj\Debug\ParallelCordinates.pdb
+c:\users\flander\documents\visual studio 2013\Projects\ParallelCordinates\ParallelCordinates\obj\Debug\ParallelCoordinates.csprojResolveAssemblyReference.cache
+c:\users\flander\documents\visual studio 2013\Projects\ParallelCordinates\ParallelCordinates\obj\Debug\ParallelCoordinates2D.baml
+c:\users\flander\documents\visual studio 2013\Projects\ParallelCordinates\ParallelCordinates\obj\Debug\ParallelCoordinates2D.g.cs
+C:\Users\Flander\Documents\github\Projects\ParallelCordinates\ParallelCordinates\bin\Debug\ParallelCordinates.exe.config
+C:\Users\Flander\Documents\github\Projects\ParallelCordinates\ParallelCordinates\obj\Debug\ParallelCordinates.exe
+C:\Users\Flander\Documents\github\Projects\ParallelCordinates\ParallelCordinates\obj\Debug\ParallelCordinates.pdb
+C:\Users\Flander\Documents\github\Projects\ParallelCordinates\ParallelCordinates\bin\Debug\ParallelCordinates.exe
+C:\Users\Flander\Documents\github\Projects\ParallelCordinates\ParallelCordinates\bin\Debug\ParallelCordinates.pdb
+C:\Users\Flander\Documents\github\Projects\ParallelCordinates\ParallelCordinates\bin\Debug\Excel.dll
+C:\Users\Flander\Documents\github\Projects\ParallelCordinates\ParallelCordinates\obj\Debug\ParallelCoordinates.csprojResolveAssemblyReference.cache
+C:\Users\Flander\Documents\github\Projects\ParallelCordinates\ParallelCordinates\obj\Debug\ParallelCoordinates2D.baml
+C:\Users\Flander\Documents\github\Projects\ParallelCordinates\ParallelCordinates\obj\Debug\DataView.baml
+C:\Users\Flander\Documents\github\Projects\ParallelCordinates\ParallelCordinates\obj\Debug\MainWindow.baml
+C:\Users\Flander\Documents\github\Projects\ParallelCordinates\ParallelCordinates\obj\Debug\ParallelCoordinates2D.g.cs
+C:\Users\Flander\Documents\github\Projects\ParallelCordinates\ParallelCordinates\obj\Debug\DataView.g.cs
+C:\Users\Flander\Documents\github\Projects\ParallelCordinates\ParallelCordinates\obj\Debug\MainWindow.g.cs
+C:\Users\Flander\Documents\github\Projects\ParallelCordinates\ParallelCordinates\obj\Debug\App.g.cs
+C:\Users\Flander\Documents\github\Projects\ParallelCordinates\ParallelCordinates\obj\Debug\ParallelCordinates_MarkupCompile.cache
+C:\Users\Flander\Documents\github\Projects\ParallelCordinates\ParallelCordinates\obj\Debug\ParallelCordinates.g.resources
+C:\Users\Flander\Documents\github\Projects\ParallelCordinates\ParallelCordinates\obj\Debug\ParallelCordinates.Properties.Resources.resources
+C:\Users\Flander\Documents\github\Projects\ParallelCordinates\ParallelCordinates\obj\Debug\ParallelCoordinates.csproj.GenerateResource.Cache
+C:\Users\Flander\Documents\ParallelCoordinates\ParallelCordinates\bin\Debug\ParallelCordinates.exe.config
+C:\Users\Flander\Documents\ParallelCoordinates\ParallelCordinates\obj\Debug\ParallelCordinates.exe
+C:\Users\Flander\Documents\ParallelCoordinates\ParallelCordinates\obj\Debug\ParallelCordinates.pdb
+C:\Users\Flander\Documents\ParallelCoordinates\ParallelCoordinates\bin\Debug\ParallelCordinates.exe.config
+C:\Users\Flander\Documents\ParallelCoordinates\ParallelCoordinates\obj\Debug\ParallelCordinates.exe
+C:\Users\Flander\Documents\ParallelCoordinates\ParallelCoordinates\obj\Debug\ParallelCordinates.pdb

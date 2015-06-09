@@ -1,0 +1,39 @@
+﻿<Window x:Class="ParallelCordinates.ParallelCoordinates2D"
+        x:Name="window"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Parallel Coordinates 2D" 
+        WindowState="Maximized"
+        Icon="icon.ico">
+
+    <ScrollViewer Name="canvasContainer"
+        ScrollViewer.CanContentScroll="True" 
+        ScrollViewer.VerticalScrollBarVisibility="Auto"
+        ScrollViewer.HorizontalScrollBarVisibility="Auto"
+        ScrollChanged="onScrollMove">
+        <Canvas Name="canvas" MouseDown="mouseDown" MouseUp="mouseUP" Background="Transparent">
+            <Button Name="defaultSettingsBtn" Content="" Canvas.Left="10" Canvas.Top="10" Width="30" Height="30" Click="ShowGridSettings">
+                <Button.Background>
+                    <ImageBrush ImageSource="Gear.png"/>
+                </Button.Background>
+            </Button>
+            <Border Name="defaultSettingsGrid" Canvas.Left="10" Canvas.Top="10" BorderBrush="DarkGray" BorderThickness="1">
+                <Grid Height="232" Width="259" Background="Gainsboro">
+                    <Label Content="Visualization Constraints" HorizontalAlignment="Left" Margin="21,21,0,0" VerticalAlignment="Top" Width="180" FontSize="14"/>
+                    <TextBox Name="MinColumnWidthTxtBx" HorizontalAlignment="Left" Height="23" Margin="219,54,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="30" PreviewTextInput="PreviewTextInput" LostFocus="ValidateCount"/>
+                    <Label Content="Minimum Column Width: " HorizontalAlignment="Left" Margin="50,50,0,0" VerticalAlignment="Top"/>
+                    <Label Content="px" HorizontalAlignment="Left" Margin="420,102,0,0" VerticalAlignment="Top" Width="22" />
+                    <!--TextBox Name="MaxUniqueEntriesTxtBx" HorizontalAlignment="Left" Height="23" Margin="219,81,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="30" PreviewTextInput="PreviewTextInput" LostFocus="ValidateCount"/-->
+                    <!--Label Content="Maximum Unique Entries:" HorizontalAlignment="Left" Margin="50,77,0,0" VerticalAlignment="Top"/-->
+                    <TextBox Name="BeginNumericAproxTxtBx" HorizontalAlignment="Left" Height="23" Margin="219,81,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="30" PreviewTextInput="PreviewTextInput" />
+                    <Label Content="Begin Numeric Aproximation:" HorizontalAlignment="Left" Margin="50,77,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Hide Filtered Results" HorizontalAlignment="Left" Margin="50,103,0,0" VerticalAlignment="Top"/>
+                    <CheckBox Content="" Name="FilterTxtBx" HorizontalAlignment="Left" Margin="227,110,0,0" VerticalAlignment="Top"/>
+                    <Button Content="Apply" HorizontalAlignment="Left" Margin="77,200,0,0" VerticalAlignment="Top" Width="75" Click="ApplyChanges"/>
+                    <Button Content="Done" HorizontalAlignment="Left" Margin="172,200,0,0" VerticalAlignment="Top" Width="75" Click="CloseSettingsWindow"/>
+                </Grid>
+            </Border>
+        </Canvas>
+    </ScrollViewer>
+
+</Window>

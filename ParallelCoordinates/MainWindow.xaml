@@ -1,0 +1,92 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="ParallelCordinates.MainWindow"
+        Title="Parallel Coordinates" Height="356" Width="531" ResizeMode="CanMinimize"
+        Icon="icon.ico">
+    <Grid>
+        <Border>
+            <Border.Background>
+                <LinearGradientBrush EndPoint="0.504,1.5" StartPoint="0.504,0.03">
+                    <GradientStop Color="GhostWhite" Offset="0"/>
+                    <GradientStop Color="WhiteSmoke" Offset="3"/>
+                </LinearGradientBrush>
+            </Border.Background>
+        </Border>
+
+        <TabControl HorizontalAlignment="Left"
+		    Height="299"
+		    Margin="10,10,0,0"
+		    VerticalAlignment="Top"
+		    Width="497">
+            <TabItem Header="Data Preparation" Width="130">
+                <Grid Background="#FFE5E5E5">
+                    <Button Content="Select Data Source" HorizontalAlignment="Left" Margin="12,30,0,0" VerticalAlignment="Top" Width="116" Click="FileBrowserBtn"/>
+                    <Label x:Name="FileNameLbl"  Content="" HorizontalAlignment="Left" Margin="131,28,0,0" VerticalAlignment="Top" Width="195"/>
+                    <Button Name="DataInterpretationBtn" Content="View Data Interpretation" HorizontalAlignment="Left" Margin="331,30,0,0" IsEnabled="False" VerticalAlignment="Top" Width="141" Click="DisplayData"/>
+
+                    <Label Content="Visualization Method" HorizontalAlignment="Left" Margin="9,73,0,0" VerticalAlignment="Top" Width="140" FontSize="14"/>
+                    <RadioButton Content="Parallel Coordinates in 2D" HorizontalAlignment="Left" Margin="43,107,0,0" VerticalAlignment="Top" IsChecked="True" Checked="CheckBox_Checked" Width="161" Height="19"/>
+                    <!--RadioButton Content="Parallel Coordinates in 3D Spiral"  HorizontalAlignment="Left" Margin="43,146,0,0" VerticalAlignment="Top" Checked="CheckBox_Checked" Width="199" Height="19" IsEnabled="False"/-->
+                    <Button Name="LaunchBtn" Content="Launch Visualization" HorizontalAlignment="Left" Margin="43,219,0,0" VerticalAlignment="Top" Width="399" Height="22" IsEnabled="False" Click="LaunchBtn_Click"/>
+                    <Label Content="Visualization Constraints" HorizontalAlignment="Left" Margin="239,73,0,0" VerticalAlignment="Top" Width="180" FontSize="14"/>
+                    <TextBox Name="MinColumnWidthTxtBx" HorizontalAlignment="Left" Height="23" Margin="394,106,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Width="30" PreviewTextInput="PreviewTextInput" LostFocus="ValidateCount"/>
+                    <Label Content="Min Column Width: " HorizontalAlignment="Left" Margin="268,102,0,0" VerticalAlignment="Top"/>
+                    <Label Content="px" HorizontalAlignment="Left" Margin="420,102,0,0" VerticalAlignment="Top" Width="22" />
+                    <TextBox Name="MaxUniqueEntriesTxtBx" HorizontalAlignment="Left" Height="23" Margin="394,133,0,0" TextWrapping="Wrap" Text="25" VerticalAlignment="Top" Width="30" PreviewTextInput="PreviewTextInput" LostFocus="ValidateCount"/>
+                    <Label Content="Max Unique Entries:" HorizontalAlignment="Left" Margin="268,129,0,0" VerticalAlignment="Top"/>
+                    <TextBox Name="BeginNumericAproxTxtBx" HorizontalAlignment="Left" Height="23" Margin="394,160,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="30" PreviewTextInput="PreviewTextInput" LostFocus="ValidateCount"/>
+                    <Label Content="Begin Numeric Aprox:" HorizontalAlignment="Left" Margin="268,156,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Hide Filtered Results" HorizontalAlignment="Left" Margin="268,181,0,0" VerticalAlignment="Top"/>
+                    <CheckBox Content="" Name="FilterTxtBx" HorizontalAlignment="Left" Margin="402,188,0,0" VerticalAlignment="Top"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Help" Width="130">
+                <Grid Background="#FFE5E5E5">
+                    <TabControl HorizontalAlignment="Left"
+		                Height="261"
+		                Margin="4,3,0,0"
+		                VerticalAlignment="Top"
+		                Width="479">
+                        <TabItem Header="File Input" Width="130">
+                            <Grid Background="#FFE5E5E5">
+                                <TextBlock HorizontalAlignment="Left"
+                		            Margin="7,2,0,0"
+                		            TextWrapping="Wrap"
+                		            VerticalAlignment="Top"
+                		            Width="462" Height="227"><Run Text="Accepted Data Input Formats"/><LineBreak/><Run Text="        .xlsx"/><Run Text=" .txt"/><LineBreak/><Run/><LineBreak/><Run Text="Expected File Format"/><LineBreak/><Run Text="        .xlsx"/><LineBreak/><Run Text="                Beginning at cell A1, fill row 1 with attribute fields, one per cell. Every"/><LineBreak/><Run Text="                subsequent row is a single data entry."/><LineBreak/><Run Text="        .txt"/><LineBreak/><Run Text="                Every line in the text file is one full data entry. Entry data fields are delimited"/><LineBreak/><Run Text="                by a single tab character. If there is no value for a field, simply enter another"/><LineBreak/><Run Text="                tab and begin entering the next data field."/><LineBreak/><Run Text="General"/><LineBreak/><Run Text="        Empty data entries will be replaced with [Not Available]. Additionally, if a data"/><LineBreak/><Run Text="        entries are surrounded by [] characters it will be treated as an empty data filed."/></TextBlock>
+                            </Grid>
+                        </TabItem>
+                        <TabItem Header="Input Arguments" Width="130">
+                            <Grid Background="#FFE5E5E5">
+                                <TextBlock HorizontalAlignment="Left"
+                            		Margin="7,2,0,0"
+                            		TextWrapping="Wrap"
+                            		VerticalAlignment="Top"
+                            		Width="462" Height="227"><Run Text="Input Arguments"/><LineBreak/><Run Text="        "/><LineBreak/><Run Text="        Min Column Width: "/><LineBreak/><Run Text="                Define the minimum number of pixels between columns."/><LineBreak/><Run Text="&#x9;"/><LineBreak/><Run Text="        Max Unique Entries: "/><LineBreak/><Run Text="                Columns with more than this number of unique non-numeric entries are"/><LineBreak/><Run Text="                filtered out.   "/><LineBreak/><Run Text="&#x9;"/><LineBreak/><Run Text="        Begin Numeric Aprox: "/><LineBreak/><Run Text="                If a column containing only numeric or empty values exceeds this number,"/><LineBreak/><Run Text="                than points are not directly mapped to this column but rather approximated "/><LineBreak/><Run Text="                based on the range of its extremes. "/><LineBreak/><Run Text="&#x9; "/><LineBreak/><Run Text="&#x9;"/></TextBlock>
+                            </Grid>
+                        </TabItem>
+                        <TabItem Header="Features" Width="130">
+                            <Grid Background="#FFE5E5E5">
+                                <TextBlock HorizontalAlignment="Left"
+                            		Margin="7,2,0,0"
+                            		TextWrapping="Wrap"
+                            		VerticalAlignment="Top"
+                            		Width="462" Height="227"><Run Text="View Data Interpretation"/><LineBreak/><Run Text="        This feature displays up to the first 21 entries of your data to verify the provided"/><LineBreak/><Run Text="        input file was parsed correctly. "/><LineBreak/><Run/><LineBreak/><Run Text="Parallel Coordinates in 2D"/><LineBreak/><Run Text="        A method of viewing data in two dimensions. Note that for each column there"/><LineBreak/><Run Text="        is the ability to click on it and drag it to a new location, inserting it"/><LineBreak/><Run Text="        between the columns the mouse up event occurs between. Additionally, points"/><LineBreak/><Run Text="        can be filtered out by clicking and dragging the cursor on portions of a single"/><LineBreak/><Run Text="        column. Clicking again on the column in question will free the data filter."/><LineBreak/><Run Text="&#x9; "/><LineBreak/><Run Text="&#x9;"/></TextBlock>
+                            </Grid>
+                        </TabItem>
+                    </TabControl>
+                </Grid>
+            </TabItem>
+            <TabItem Header="About" Width="130px">
+                <Grid Background="#FFE5E5E5">
+                    <TextBlock HorizontalAlignment="Left"
+                		Margin="10,10,0,0"
+                		TextWrapping="Wrap"
+                		VerticalAlignment="Top"
+                		Width="471" Height="247"><Run Text="Parallel Coordinates: A data visualization method."/><LineBreak/><Run/><LineBreak/><Run Text="Developed By"/><Run Text=" "/><LineBreak/><Run Text="        Aaron Battershell"/><LineBreak/><Run/><LineBreak/><Run Text="Written With"/><LineBreak/><Run Text="        Windows Presentation Foundation (WPF)"/><LineBreak/><Run/><LineBreak/><Run Text="View the source at"/><LineBreak/><Run Text="        GitHub.com/AaronBattershell/Projects/tree/master/ParallelCordinates"/><LineBreak/><Run/><LineBreak/><Run/><LineBreak/><Run Text="(ɔ) 2015 Aaron Battershell"/><LineBreak/><Run/><LineBreak/><Run/></TextBlock>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

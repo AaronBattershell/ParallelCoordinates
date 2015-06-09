@@ -1,0 +1,13 @@
+c:\users\flander\documents\visual studio 2013\Projects\ParallelCordinates\ParallelCordinates\bin\Debug\ParallelCordinates.exe.config
+c:\users\flander\documents\visual studio 2013\Projects\ParallelCordinates\ParallelCordinates\bin\Debug\ParallelCordinates.exe
+c:\users\flander\documents\visual studio 2013\Projects\ParallelCordinates\ParallelCordinates\bin\Debug\ParallelCordinates.pdb
+c:\users\flander\documents\visual studio 2013\Projects\ParallelCordinates\ParallelCordinates\obj\Debug\ParallelCordinates.csprojResolveAssemblyReference.cache
+c:\users\flander\documents\visual studio 2013\Projects\ParallelCordinates\ParallelCordinates\obj\Debug\MainWindow.baml
+c:\users\flander\documents\visual studio 2013\Projects\ParallelCordinates\ParallelCordinates\obj\Debug\MainWindow.g.cs
+c:\users\flander\documents\visual studio 2013\Projects\ParallelCordinates\ParallelCordinates\obj\Debug\App.g.cs
+c:\users\flander\documents\visual studio 2013\Projects\ParallelCordinates\ParallelCordinates\obj\Debug\ParallelCordinates_MarkupCompile.cache
+c:\users\flander\documents\visual studio 2013\Projects\ParallelCordinates\ParallelCordinates\obj\Debug\ParallelCordinates.g.resources
+c:\users\flander\documents\visual studio 2013\Projects\ParallelCordinates\ParallelCordinates\obj\Debug\ParallelCordinates.Properties.Resources.resources
+c:\users\flander\documents\visual studio 2013\Projects\ParallelCordinates\ParallelCordinates\obj\Debug\ParallelCordinates.csproj.GenerateResource.Cache
+c:\users\flander\documents\visual studio 2013\Projects\ParallelCordinates\ParallelCordinates\obj\Debug\ParallelCordinates.exe
+c:\users\flander\documents\visual studio 2013\Projects\ParallelCordinates\ParallelCordinates\obj\Debug\ParallelCordinates.pdb
