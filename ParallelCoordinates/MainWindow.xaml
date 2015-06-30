@@ -20,25 +20,30 @@
 		    VerticalAlignment="Top"
 		    Width="497">
             <TabItem Header="Data Preparation" Width="130">
-                <Grid Background="#FFE5E5E5">
+                <Grid Background="#FFE5E5E5" Margin="0,2,0,-2">
                     <Button Content="Select Data Source" HorizontalAlignment="Left" Margin="12,30,0,0" VerticalAlignment="Top" Width="116" Click="FileBrowserBtn"/>
                     <Label x:Name="FileNameLbl"  Content="" HorizontalAlignment="Left" Margin="131,28,0,0" VerticalAlignment="Top" Width="195"/>
                     <Button Name="DataInterpretationBtn" Content="View Data Interpretation" HorizontalAlignment="Left" Margin="331,30,0,0" IsEnabled="False" VerticalAlignment="Top" Width="141" Click="DisplayData"/>
 
-                    <Label Content="Visualization Method" HorizontalAlignment="Left" Margin="9,73,0,0" VerticalAlignment="Top" Width="140" FontSize="14"/>
-                    <RadioButton Content="Parallel Coordinates in 2D" HorizontalAlignment="Left" Margin="43,107,0,0" VerticalAlignment="Top" IsChecked="True" Checked="CheckBox_Checked" Width="161" Height="19"/>
+                    <!--Label Content="Visualization Method" HorizontalAlignment="Left" Margin="9,73,0,0" VerticalAlignment="Top" Width="140" FontSize="14"/-->
+                    <!--RadioButton Content="Parallel Coordinates in 2D" HorizontalAlignment="Left" Margin="43,107,0,0" VerticalAlignment="Top" IsChecked="True" Checked="CheckBox_Checked" Width="161" Height="19"/-->
                     <!--RadioButton Content="Parallel Coordinates in 3D Spiral"  HorizontalAlignment="Left" Margin="43,146,0,0" VerticalAlignment="Top" Checked="CheckBox_Checked" Width="199" Height="19" IsEnabled="False"/-->
                     <Button Name="LaunchBtn" Content="Launch Visualization" HorizontalAlignment="Left" Margin="43,219,0,0" VerticalAlignment="Top" Width="399" Height="22" IsEnabled="False" Click="LaunchBtn_Click"/>
-                    <Label Content="Visualization Constraints" HorizontalAlignment="Left" Margin="239,73,0,0" VerticalAlignment="Top" Width="180" FontSize="14"/>
-                    <TextBox Name="MinColumnWidthTxtBx" HorizontalAlignment="Left" Height="23" Margin="394,106,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Width="30" PreviewTextInput="PreviewTextInput" LostFocus="ValidateCount"/>
-                    <Label Content="Min Column Width: " HorizontalAlignment="Left" Margin="268,102,0,0" VerticalAlignment="Top"/>
-                    <Label Content="px" HorizontalAlignment="Left" Margin="420,102,0,0" VerticalAlignment="Top" Width="22" />
-                    <TextBox Name="MaxUniqueEntriesTxtBx" HorizontalAlignment="Left" Height="23" Margin="394,133,0,0" TextWrapping="Wrap" Text="25" VerticalAlignment="Top" Width="30" PreviewTextInput="PreviewTextInput" LostFocus="ValidateCount"/>
-                    <Label Content="Max Unique Entries:" HorizontalAlignment="Left" Margin="268,129,0,0" VerticalAlignment="Top"/>
-                    <TextBox Name="BeginNumericAproxTxtBx" HorizontalAlignment="Left" Height="23" Margin="394,160,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="30" PreviewTextInput="PreviewTextInput" LostFocus="ValidateCount"/>
-                    <Label Content="Begin Numeric Aprox:" HorizontalAlignment="Left" Margin="268,156,0,0" VerticalAlignment="Top"/>
-                    <Label Content="Hide Filtered Results" HorizontalAlignment="Left" Margin="268,181,0,0" VerticalAlignment="Top"/>
-                    <CheckBox Content="" Name="FilterTxtBx" HorizontalAlignment="Left" Margin="402,188,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Visualization Constraints" HorizontalAlignment="Left" Margin="11,73,0,0" VerticalAlignment="Top" Width="180" FontSize="14"/>
+                    <TextBox Name="MinColumnWidthTxtBx" HorizontalAlignment="Left" Height="23" Margin="166,106,0,0" TextWrapping="Wrap" Text="200" VerticalAlignment="Top" Width="30" PreviewTextInput="PreviewTextInput" LostFocus="ValidateCount"/>
+                    <Label Content="Min Column Width: " HorizontalAlignment="Left" Margin="40,102,0,0" VerticalAlignment="Top"/>
+                    <Label Content="px" HorizontalAlignment="Left" Margin="192,102,0,0" VerticalAlignment="Top" Width="22" />
+                    <TextBox Name="MaxUniqueEntriesTxtBx" HorizontalAlignment="Left" Height="23" Margin="166,133,0,0" TextWrapping="Wrap" Text="25" VerticalAlignment="Top" Width="30" PreviewTextInput="PreviewTextInput" LostFocus="ValidateCount"/>
+                    <Label Content="Max Unique Entries:" HorizontalAlignment="Left" Margin="40,129,0,0" VerticalAlignment="Top"/>
+                    <TextBox Name="BeginNumericAproxTxtBx" HorizontalAlignment="Left" Height="23" Margin="166,160,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="30" PreviewTextInput="PreviewTextInput" LostFocus="ValidateCount"/>
+                    <Label Content="Begin Numeric Aprox:" HorizontalAlignment="Left" Margin="40,156,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Cumulative Line Width:" HorizontalAlignment="Left" Margin="238,102,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="AverageLineWidthTxtBx" HorizontalAlignment="Left" Height="23" Margin="371,106,0,0" TextWrapping="Wrap" Text="50" VerticalAlignment="Top" Width="30" PreviewTextInput="PreviewTextInput" LostFocus="ValidateCount"/>
+                    <Label Content="px" HorizontalAlignment="Left" Margin="397,102,0,0" VerticalAlignment="Top" Width="22" />
+                    <Label Content="Line Width Variance" HorizontalAlignment="Left" Margin="238,129,0,0" VerticalAlignment="Top"/>
+                    <Slider x:Name="LineWidthVarianceSlider" HorizontalAlignment="Left" Margin="361,134,0,0" VerticalAlignment="Top" Maximum="3" TickPlacement="BottomRight" Minimum="1" Width="58" IsSnapToTickEnabled="False" IsMoveToPointEnabled="True"/>
+                    <Label Content="Hide Filtered Results" HorizontalAlignment="Left" Margin="238,156,0,0" VerticalAlignment="Top"/>
+                    <CheckBox Content="" Name="FilterTxtBx" HorizontalAlignment="Left" Margin="379,164,0,0" VerticalAlignment="Top"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Help" Width="130">
@@ -54,7 +59,7 @@
                 		            Margin="7,2,0,0"
                 		            TextWrapping="Wrap"
                 		            VerticalAlignment="Top"
-                		            Width="462" Height="227"><Run Text="Accepted Data Input Formats"/><LineBreak/><Run Text="        .xlsx"/><Run Text=" .txt"/><LineBreak/><Run/><LineBreak/><Run Text="Expected File Format"/><LineBreak/><Run Text="        .xlsx"/><LineBreak/><Run Text="                Beginning at cell A1, fill row 1 with attribute fields, one per cell. Every"/><LineBreak/><Run Text="                subsequent row is a single data entry."/><LineBreak/><Run Text="        .txt"/><LineBreak/><Run Text="                Every line in the text file is one full data entry. Entry data fields are delimited"/><LineBreak/><Run Text="                by a single tab character. If there is no value for a field, simply enter another"/><LineBreak/><Run Text="                tab and begin entering the next data field."/><LineBreak/><Run Text="General"/><LineBreak/><Run Text="        Empty data entries will be replaced with [Not Available]. Additionally, if a data"/><LineBreak/><Run Text="        entries are surrounded by [] characters it will be treated as an empty data filed."/></TextBlock>
+                		            Width="462" Height="227"><Run Text="Accepted Data Input Formats"/><LineBreak/><Run Text="        .xlsx"/><Run Text=" .txt"/><LineBreak/><Run/><LineBreak/><Run Text="Expected File Format"/><LineBreak/><Run Text="        .xlsx"/><LineBreak/><Run Text="                Beginning at cell A1, fill row 1 with attribute fields, one per cell. Every"/><LineBreak/><Run Text="                subsequent row is a single data entry."/><LineBreak/><Run Text="        .txt"/><LineBreak/><Run Text="                Every line in the text file is one full data entry. Entry data fields are delimited"/><LineBreak/><Run Text="                by a single tab character. If there is no value for a field, simply enter another"/><LineBreak/><Run Text="                tab and begin entering the next data field."/><LineBreak/><Run Text="General"/><LineBreak/><Run Text="        Empty data entries will be replaced with [Not Available]. Additionally, if data"/><LineBreak/><Run Text="        entries are surrounded by [] characters it will be treated as an empty data filed."/></TextBlock>
                             </Grid>
                         </TabItem>
                         <TabItem Header="Input Arguments" Width="130">

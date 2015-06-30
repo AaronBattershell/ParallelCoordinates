@@ -29,14 +29,15 @@ namespace ParallelCordinates
 
             // Set filter for file extension and default file extension 
             fileSelector.DefaultExt = ".xlsx";
-            fileSelector.Filter = "Excel Files (*.xlsx)|*.xlsx|Text Files (*.txt)|*.txt|All File Types (*.*)|*.*";
+            fileSelector.Filter = "Excel or Text Files|*.xlsx;*.txt|All File Types|*.*";
 
             // Get the selected file name and display in a TextBox 
-            if ((bool)fileSelector.ShowDialog())
+            if (fileSelector.ShowDialog() ?? false)
             {
                 try
                 {
                     UserData = new ExcelReader(fileSelector.FileName).ds;
+                    AverageLineWidthTxtBx.Text = ((int)(UserData.Count*0.5 + 0.5)).ToString();
                     DataInterpretationBtn.IsEnabled = true;
                     LaunchBtn.IsEnabled = true;
                     FileNameLbl.Content = fileSelector.FileName.Substring(fileSelector.FileName.LastIndexOf("\\") + 1);
@@ -85,19 +86,24 @@ namespace ParallelCordinates
 
         private void LaunchBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (VisualizationMethod == "Parallel Coordinates in 2D")
-            {
-                ParallelCoordinates2D page = new ParallelCoordinates2D(UserData, Int32.Parse(MinColumnWidthTxtBx.Text), Int32.Parse(BeginNumericAproxTxtBx.Text), Int32.Parse(MaxUniqueEntriesTxtBx.Text), (bool)FilterTxtBx.IsChecked);
-                page.Show();
-            }
-            else if (VisualizationMethod == "2D in 3D Spiral")
-            {
-                FileNameLbl.Content = "2D in 3D Spiral";
-            }
-            else
-            {
-                System.Windows.MessageBox.Show("Error selecting visualization method.", "Unexpected Error", System.Windows.MessageBoxButton.OK);
-            }
+            ParallelCoordinates2D page = new ParallelCoordinates2D(UserData, Int32.Parse(MinColumnWidthTxtBx.Text), Int32.Parse(BeginNumericAproxTxtBx.Text), Int32.Parse(MaxUniqueEntriesTxtBx.Text), Int32.Parse(AverageLineWidthTxtBx.Text), LineWidthVarianceSlider.Value, FilterTxtBx.IsChecked ?? false);
+            page.Show();
+
+            // Code remnants from when there could have been multiple visulization methods
+            // This is being kept in the far fetched hopes that might actually happen
+            //if (VisualizationMethod == "Parallel Coordinates in 2D")
+            //{
+            //    ParallelCoordinates2D page = new ParallelCoordinates2D(UserData, Int32.Parse(MinColumnWidthTxtBx.Text), Int32.Parse(BeginNumericAproxTxtBx.Text), Int32.Parse(MaxUniqueEntriesTxtBx.Text), (bool)FilterTxtBx.IsChecked);
+            //    page.Show();
+            //}
+            //else if (VisualizationMethod == "2D in 3D Spiral")
+            //{
+            //    FileNameLbl.Content = "2D in 3D Spiral";
+            //}
+            //else
+            //{
+            //    System.Windows.MessageBox.Show("Error selecting visualization method.", "Unexpected Error", System.Windows.MessageBoxButton.OK);
+            //}
         }
 
         private void PreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -122,6 +128,11 @@ namespace ParallelCordinates
             if (MinColumnWidthTxtBx.Text == "")
             {
                 MinColumnWidthTxtBx.Text = "300";
+            }
+
+            if (AverageLineWidthTxtBx.Text == "")
+            {
+                MinColumnWidthTxtBx.Text = "50";
             }
 
             // Ensure NumericAproximation is not greater than total unique

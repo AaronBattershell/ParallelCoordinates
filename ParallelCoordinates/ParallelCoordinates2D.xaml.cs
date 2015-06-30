@@ -20,9 +20,11 @@ namespace ParallelCordinates
     {
         double CalculatedXStep;
 
+        double VariableLineThickness;
         double MinXStep;
         int StartApproximation;
         int MaxUniqueEntries;
+        int TotalLineThickness;
         bool HideFiltered;
 
         const double BORDER_DISTANCE = 50;
@@ -36,32 +38,38 @@ namespace ParallelCordinates
         int UpMouseColumnIndex = -1;
 
         List<bool> FilteredList;
-        //List<DataEntry> OriginalDataList;
 
-        Border settingsGrid;
-        Button settingsBtn;
+        Border SettingsGrid;
+        Button SettingsBtn;
         DisplayData GraphData;
+
+        // For the purpose of creating line density
+        Dictionary<Tuple<Point, Point>, int> PlacementDencity;
 
         public ParallelCoordinates2D()
         {
             InitializeComponent();
         }
 
-        public ParallelCoordinates2D(List<DataEntry> userData, int minColumnWidth, int beginNumericAprox, int maxUniqueEntries, bool hideFiltered) : this()
+        public ParallelCoordinates2D(List<DataEntry> userData, int minColumnWidth, int beginNumericAprox, int maxUniqueEntries, int totalLineThickness, double variableLineThickness, bool hideFiltered) : this()
         {
-            //OriginalDataList = userData;
-            settingsGrid = defaultSettingsGrid;
-            settingsBtn = defaultSettingsBtn;
+            SettingsGrid = defaultSettingsGrid;
+            SettingsBtn = defaultSettingsBtn;
 
-            settingsGrid.Visibility = Visibility.Hidden;
+            SettingsGrid.Visibility = Visibility.Hidden;
 
             MinXStep = minColumnWidth;
             StartApproximation = beginNumericAprox;
-            MaxUniqueEntries = beginNumericAprox;
+            MaxUniqueEntries = maxUniqueEntries;
+            MaxUniqueEntries = maxUniqueEntries;
+            TotalLineThickness = totalLineThickness;
+            VariableLineThickness = variableLineThickness;
             HideFiltered = hideFiltered;
 
             GraphData = new DisplayData();
             GraphData.GridData = userData.Where(e => e.UniquEntries <= MaxUniqueEntries || e.AllNumbers == true).ToList();
+
+            PlacementDencity = new Dictionary<Tuple<Point, Point>, int>();
 
             string[] unusedColumnNames = userData.Where(e => e.UniquEntries > MaxUniqueEntries && e.AllNumbers == false).Select(e => e.ColumnName).ToArray();
 
@@ -71,10 +79,12 @@ namespace ParallelCordinates
                 string errorMessage = "The following data column" + (unusedColumnNames.Length > 1 ? "s" : "") + " were removed for having too many unique non-numeric entries: ";
                 string badColumns = string.Join(", ", unusedColumnNames);
 
-                System.Windows.MessageBox.Show(errorMessage + badColumns, "Invalid Columns", System.Windows.MessageBoxButton.OK);
+                MessageBox.Show(errorMessage + badColumns, "Invalid Columns", System.Windows.MessageBoxButton.OK);
             }
 
             CalculateCanvasDisplayLocations();
+
+            clearFilters();
 
             drawScreen();
         }
@@ -149,11 +159,17 @@ namespace ParallelCordinates
 
         private void mouseDown(object sender, RoutedEventArgs e)
         {
+            if (SettingsGrid.IsVisible)
+            {
+                return;
+            }
+            
             Point downClick = Mouse.GetPosition(canvas);
+            
             DownMouseColumnIndex = getColumn(downClick);
 
             // Ensure that the column is currently not already selected
-            if (GraphData.GridData[DownMouseColumnIndex].DisplayFilter.First == -1)
+            if (GraphData.GridData[DownMouseColumnIndex].DisplayFilter.First != -1)
             {
                 GraphData.GridData[DownMouseColumnIndex].DisplayFilter.First = downClick.Y; 
             }
@@ -161,6 +177,11 @@ namespace ParallelCordinates
 
         private void mouseUP(object sender, RoutedEventArgs e)
         {
+            if (SettingsGrid.IsVisible)
+            {
+                return;
+            }
+
             // Check for column click
             Point upClick = Mouse.GetPosition(canvas);
 
@@ -185,18 +206,15 @@ namespace ParallelCordinates
 
                 // Filter or free constraints based upon restrictions
                 setFilters();
+
                 drawScreen();
-
-                return;
             }
-
 
             // Check for column drag
             UpMouseColumnIndex = getBetweenColumns(upClick);
 
             if (UpMouseColumnIndex != -1 && DownMouseColumnIndex != -1 && !(UpMouseColumnIndex - 2 < DownMouseColumnIndex && UpMouseColumnIndex + 1 > DownMouseColumnIndex))
             {
-                GraphData.GridData.Last().Data.Last().ToString();
                 var dataHolder = GraphData.GridData[DownMouseColumnIndex];
 
                 GraphData.GridData.RemoveAt(DownMouseColumnIndex);
@@ -211,10 +229,17 @@ namespace ParallelCordinates
                     GraphData.GridData.Insert(UpMouseColumnIndex, dataHolder);
                 }
 
+                DownMouseColumnIndex = -1;
                 drawScreen();
             }
 
             UpMouseColumnIndex = -1;
+        }
+
+        private void clearFilters()
+        {
+            FilteredList.ForEach(e => e = false);
+            GraphData.GridData.ForEach(e => { e.DisplayFilter.First = -1; e.DisplayFilter.Second = -1; });
         }
 
         private void setFilters()
@@ -328,19 +353,50 @@ namespace ParallelCordinates
 
         void drawDatasetLines()
         {
+            PlacementDencity.Clear();
+
+            var pointPositions = new List<List<Tuple<Point, Point>>>();
+
             for (int i = 0; i < GraphData.GridData[0].Data.Count; ++i)
             {
-                if (!FilteredList[i] || !HideFiltered) 
+                pointPositions.Add(new List<Tuple<Point, Point>>());
+                
+                Point left = getDataPointCoordinates(i, 0);
+                Point right;
+
+                for (int j = 1; j < GraphData.GridData.Count; ++j)
                 {
-                    Point left = getDataPointCoordinates(i, 0);
-                    Point right;
+                    right = getDataPointCoordinates(i, j);
 
-                    for (int j = 1; j < GraphData.GridData.Count; ++j)
+                    pointPositions[i].Add(Tuple.Create(left, right));
+
+                    if (PlacementDencity.ContainsKey(pointPositions[i][j-1]))
                     {
-                        right = getDataPointCoordinates(i, j);
+                        ++PlacementDencity[pointPositions[i][j - 1]];
+                    }
+                    else
+                    {
+                        PlacementDencity[pointPositions[i][j - 1]] = 1;
+                    }
 
-                        canvas.Children.Add(DrawLine(new Pen((FilteredList[i] ? Brushes.LightGray : Brushes.DarkBlue), .5), left, right));
-                        left = right;
+                    left = right;
+                }
+            }
+
+            for (int i = 0; i < pointPositions.Count; ++i)
+            {
+                if (!FilteredList[i] || !HideFiltered)
+                {
+                    for (int j = 0; j < pointPositions[i].Count; ++j)
+                    {
+                        if (PlacementDencity[pointPositions[i][j]] == -1)
+                        {
+                            continue;
+                        }
+
+                        canvas.Children.Add(DrawLine(new Pen((FilteredList[i] ? Brushes.LightGray : Brushes.DarkBlue), Math.Pow(PlacementDencity[pointPositions[i][j]], VariableLineThickness) / GraphData.GridData.Count * TotalLineThickness), pointPositions[i][j].Item1, pointPositions[i][j].Item2));
+
+                        PlacementDencity[pointPositions[i][j]] = -1;
                     }
                 }
             }
@@ -348,8 +404,8 @@ namespace ParallelCordinates
 
         void drawSettingsButton()
         {
-            canvas.Children.Add(settingsBtn);
-            canvas.Children.Add(settingsGrid);
+            canvas.Children.Add(SettingsBtn);
+            canvas.Children.Add(SettingsGrid);
         }
 
         Point getDataPointCoordinates(int i, int j)
@@ -389,25 +445,26 @@ namespace ParallelCordinates
 
         private void CloseSettingsWindow(object sender, RoutedEventArgs e)
         {
-            settingsGrid.Visibility = Visibility.Hidden;
+            canvas.Background = Brushes.White;
+            SettingsGrid.Visibility = Visibility.Hidden;
         }
 
         private void ApplyChanges(object sender, RoutedEventArgs e)
         {
-            if (MinXStep != Int32.Parse(MinColumnWidthTxtBx.Text) || StartApproximation != Int32.Parse(BeginNumericAproxTxtBx.Text))
+            if ((int)(MinXStep) != Int32.Parse(MinColumnWidthTxtBx.Text) || StartApproximation != Int32.Parse(BeginNumericAproxTxtBx.Text) || HideFiltered != (bool)FilterTxtBx.IsChecked || TotalLineThickness != Int32.Parse(TotalLineThicknessTxtBx.Text) || Math.Abs(VariableLineThickness - LineWidthVarianceSlider.Value) > 0.01)
             {
                 MinXStep = Int32.Parse(MinColumnWidthTxtBx.Text);
                 StartApproximation = Int32.Parse(BeginNumericAproxTxtBx.Text);
-                
-                // START NEW CHANGES
-                CalculateCanvasDisplayLocations();
-                // END CHANGES
-            }
-            
-            HideFiltered = (bool)FilterTxtBx.IsChecked;
+                TotalLineThickness = Int32.Parse(TotalLineThicknessTxtBx.Text);
+                VariableLineThickness = LineWidthVarianceSlider.Value;
 
-            setFilters();
-            drawScreen();
+                CalculateCanvasDisplayLocations();
+
+                HideFiltered = (bool)FilterTxtBx.IsChecked;
+
+                setFilters();
+                drawScreen();
+            }
         }
 
         private void CalculateCanvasDisplayLocations()
@@ -468,10 +525,12 @@ namespace ParallelCordinates
 
         private void ShowGridSettings(object sender, RoutedEventArgs e)
         {
-            settingsGrid.Visibility = Visibility.Visible;
+            SettingsGrid.Visibility = Visibility.Visible;
+            canvas.Background = Brushes.Snow;
 
             MinColumnWidthTxtBx.Text = MinXStep.ToString();
             BeginNumericAproxTxtBx.Text = StartApproximation.ToString();
+            TotalLineThicknessTxtBx.Text = TotalLineThickness.ToString();
             FilterTxtBx.IsChecked = HideFiltered;
         }
 
@@ -486,12 +545,17 @@ namespace ParallelCordinates
             // Fill textboxes is empty
             if (BeginNumericAproxTxtBx.Text == "")
             {
-                BeginNumericAproxTxtBx.Text = "10";
+                BeginNumericAproxTxtBx.Text = StartApproximation.ToString();
+            }
+
+            if (TotalLineThicknessTxtBx.Text == "")
+            {
+                BeginNumericAproxTxtBx.Text = TotalLineThickness.ToString();
             }
 
             if (MinColumnWidthTxtBx.Text == "")
             {
-                MinColumnWidthTxtBx.Text = "300";
+                MinColumnWidthTxtBx.Text = ((int)MinXStep).ToString();
             }
         }
 
@@ -500,8 +564,8 @@ namespace ParallelCordinates
             UIElement canvasContainer = VisualTreeHelper.GetParent(canvas) as UIElement;
             Point relativeLocation = canvas.TranslatePoint(new Point(0, 0), canvasContainer);
 
-            settingsGrid.Margin = new Thickness(-relativeLocation.X + 10, 10, 0, 0);
-            settingsBtn.Margin = new Thickness(-relativeLocation.X + 10, 10, 0, 0);
+            SettingsGrid.Margin = new Thickness(-relativeLocation.X + 10, 10, 0, 0);
+            SettingsBtn.Margin = new Thickness(-relativeLocation.X + 10, 10, 0, 0);
         }
     }
 
