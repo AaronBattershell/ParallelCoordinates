@@ -374,6 +374,13 @@ namespace ParallelCordinates
 
                 for (int j = 1; j < GraphData.GridData.Count; ++j)
                 {
+                    // If filtred results are hidden, ensure that this data entry is not taken into account
+                    // when calculating the width of the drawn lines
+                    if (FilteredDataEntryList[i] && HideFiltered)
+                    {
+                        continue;
+                    }
+
                     right = GetDataPointCoordinates(i, j);
 
                     pointPositions[i].Add(Tuple.Create(left, right));
