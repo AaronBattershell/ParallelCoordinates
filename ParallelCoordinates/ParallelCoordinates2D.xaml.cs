@@ -169,10 +169,9 @@ namespace ParallelCordinates
             Point downClick = Mouse.GetPosition(canvas);
             
             DownMouseColumnIndex = GetColumn(downClick);
-            //MessageBox.Show("Mouse down on: " + DownMouseColumnIndex, "", System.Windows.MessageBoxButton.OK);
 
             // Ensure that the column is currently not already selected
-            if (GraphData.GridData[DownMouseColumnIndex].FilteredColumn == false /*GraphData.GridData[DownMouseColumnIndex].DisplayFilter.First == -1*/)
+            if (GraphData.GridData[DownMouseColumnIndex].FilteredColumn == false)
             {
                 GraphData.GridData[DownMouseColumnIndex].DisplayFilter.First = downClick.Y; 
             }
@@ -189,14 +188,12 @@ namespace ParallelCordinates
             Point upClick = Mouse.GetPosition(canvas);
 
             int upMouseColumnClick = GetColumn(upClick);
-            //MessageBox.Show("Mouse up on: " + upMouseColumnClick, "", System.Windows.MessageBoxButton.OK);
 
             if (upMouseColumnClick == DownMouseColumnIndex)
             {
                 // Add filter for column
-                if (/*GraphData.GridData[upMouseColumnClick].DisplayFilter.Second == -1*/ GraphData.GridData[upMouseColumnClick].FilteredColumn == false && Math.Abs(GraphData.GridData[DownMouseColumnIndex].DisplayFilter.First - upClick.Y) >= 5)
+                if (GraphData.GridData[upMouseColumnClick].FilteredColumn == false && Math.Abs(GraphData.GridData[DownMouseColumnIndex].DisplayFilter.First - upClick.Y) >= 5)
                 {
-                    //MessageBox.Show("Adding Column Filter", "", System.Windows.MessageBoxButton.OK);
                     // Assign lowest to first, heighest to second
                     GraphData.GridData[upMouseColumnClick].DisplayFilter.Second = Math.Max(upClick.Y, GraphData.GridData[upMouseColumnClick].DisplayFilter.First);
                     GraphData.GridData[upMouseColumnClick].DisplayFilter.First = Math.Min(upClick.Y, GraphData.GridData[upMouseColumnClick].DisplayFilter.First);
@@ -205,7 +202,6 @@ namespace ParallelCordinates
                 }
                 else // remove data filter for column
                 {
-                    //MessageBox.Show("Removing Column Filter", "", System.Windows.MessageBoxButton.OK);
                     GraphData.GridData[upMouseColumnClick].FilteredColumn = false;
                     GraphData.GridData[upMouseColumnClick].DisplayFilter.First = -1;
                     GraphData.GridData[upMouseColumnClick].DisplayFilter.Second = -1;
@@ -223,8 +219,6 @@ namespace ParallelCordinates
 
             if (UpMouseColumnIndex != -1 && DownMouseColumnIndex != -1 && !(UpMouseColumnIndex - 2 < DownMouseColumnIndex && UpMouseColumnIndex + 1 > DownMouseColumnIndex))
             {
-                //MessageBox.Show("Column Drag Detected", "", System.Windows.MessageBoxButton.OK);
-
                 var dataHolder = GraphData.GridData[DownMouseColumnIndex];
 
                 GraphData.GridData.RemoveAt(DownMouseColumnIndex);
@@ -286,7 +280,6 @@ namespace ParallelCordinates
                         if (GraphData.GridData[i].DisplayFilter.First > comparableValueHeight || comparableValueHeight > GraphData.GridData[i].DisplayFilter.Second)
                         {
                             FilteredDataEntryList[j] = true;
-                            break;    
                         }
                     }
                 }
