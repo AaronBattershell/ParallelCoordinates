@@ -12,7 +12,7 @@
         ScrollViewer.CanContentScroll="True" 
         ScrollViewer.VerticalScrollBarVisibility="Auto"
         ScrollViewer.HorizontalScrollBarVisibility="Auto"
-        ScrollChanged="onScrollMove">
+        ScrollChanged="OnScrollMove">
         <Canvas Name="canvas" MouseDown="mouseDown" MouseUp="mouseUP" Background="Transparent">
             <Button Name="defaultSettingsBtn" Content="" Canvas.Left="10" Canvas.Top="10" Width="30" Height="30" Click="ShowGridSettings">
                 <Button.Background>

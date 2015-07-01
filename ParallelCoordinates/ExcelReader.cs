@@ -44,7 +44,7 @@ namespace DataReader
         public bool AllNumbers;
         public Pair<double, double> NumberRange;
 
-        public bool Filtered;
+        public bool FilteredColumn;
         public Pair<double, double> DisplayFilter;
 
         public Dictionary<string, int> YPlacements { get; set; }
