@@ -27,11 +27,8 @@ namespace ParallelCordinates
             BrokenView = false;
         }
 
-        public DataView(List<DataEntry> userData)
+        public DataView(List<DataEntry> userData, int compleateSize) : this()
         {
-            InitializeComponent();
-            BrokenView = false;
-
             try
             {
                 for (int i = 0; i < userData.Count; ++i)
@@ -53,6 +50,9 @@ namespace ParallelCordinates
 
                     ViewDataGrid.Items.Add(row);
                 }
+
+                BackgroundGrid.Background = ViewDataGrid.Background; 
+                RemainingLbl.Content = "Showing the first " + userData[0].Data.Count + " of " + compleateSize + " data entries.";
             }
             catch
             {

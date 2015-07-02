@@ -6,15 +6,22 @@
         WindowState="Maximized"
         Icon="icon.ico">
 
-    <DataGrid Name="ViewDataGrid" AutoGenerateColumns="True" Grid.Column="0" Grid.Row="0"
-        ScrollViewer.CanContentScroll="True" 
-        ScrollViewer.VerticalScrollBarVisibility="Auto"
-        ScrollViewer.HorizontalScrollBarVisibility="Auto"
-        EnableRowVirtualization="True"
-        EnableColumnVirtualization="True">
-        
-    </DataGrid>
+    <Grid x:Name="BackgroundGrid">
+        <DataGrid Name="ViewDataGrid" 
+            AutoGenerateColumns="True" 
+            Grid.Column="0" 
+            Grid.Row="0"
+            ScrollViewer.CanContentScroll="True" 
+            ScrollViewer.VerticalScrollBarVisibility="Auto"
+            ScrollViewer.HorizontalScrollBarVisibility="Auto"
+            HorizontalAlignment="Center"
+            EnableRowVirtualization="True"
+            EnableColumnVirtualization="True"
+            BorderBrush="Transparent"
+            RowHeaderWidth="0"
+            CanUserResizeRows="False">
+        </DataGrid>
 
-
-
+        <Label x:Name="RemainingLbl" Width="250" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14"></Label>
+    </Grid>
 </Window>

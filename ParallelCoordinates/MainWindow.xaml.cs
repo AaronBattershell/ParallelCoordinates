@@ -64,13 +64,13 @@ namespace ParallelCordinates
             {
 
                 minimizedData.Add(new DataEntry(UserData[i].ColumnName));
-                for (int j = 0; j < 21 && j < UserData[i].Data.Count; ++j)
+                for (int j = 0; j < 20 && j < UserData[i].Data.Count; ++j)
                 {
                     minimizedData[i].Data.Add(UserData[i].Data[j]);
                 }
             }
 
-            DataView page = new DataView(minimizedData);
+            DataView page = new DataView(minimizedData, UserData[0].Data.Count);
             
             if (!page.BrokenView)
             {
