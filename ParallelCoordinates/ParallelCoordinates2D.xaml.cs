@@ -327,8 +327,9 @@ namespace ParallelCordinates
         {
             canvas.Children.Clear();
 
-            DrawColumns();
             DrawDatasetLines();
+            DrawColumnTextBackdrop();
+            DrawColumns();
             DrawColumnDataPoints();
             DrawSettingsButton();
         }
@@ -345,6 +346,19 @@ namespace ParallelCordinates
                     Point topLeft = new Point(GraphData.ColumnPositions[i].Top.X - Math.Min(30, CalculatedXStep / 3), GraphData.GridData[i].DisplayFilter.First);
                     Point bottomRight = new Point(GraphData.ColumnPositions[i].Botumn.X + Math.Min(30, CalculatedXStep/3), GraphData.GridData[i].DisplayFilter.Second);
                     canvas.Children.Add(DrawRectangle(topLeft, bottomRight, Brushes.Black, Brushes.Transparent));
+                }
+            }
+        }
+
+        private void DrawColumnTextBackdrop()
+        {
+            var semiTransparent = new SolidColorBrush(Color.FromArgb(160, 255, 255, 255));
+
+            for (int i = 0; i < GraphData.GridData.Count; ++i)
+            {
+                foreach (var field in GraphData.GridData[i].YPlacements)
+                {
+                    canvas.Children.Add(DrawRectangle(new Point(GraphData.ColumnPositions[i].Top.X - field.Key.Length * TEXT_OFFSET_X, field.Value - 21.5), new Point(GraphData.ColumnPositions[i].Top.X + field.Key.Length * TEXT_OFFSET_X, field.Value - 31.5), semiTransparent, semiTransparent));
                 }
             }
         }
