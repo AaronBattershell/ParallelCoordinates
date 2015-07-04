@@ -41,7 +41,7 @@
                     <TextBox x:Name="AverageLineWidthTxtBx" HorizontalAlignment="Left" Height="23" Margin="371,106,0,0" TextWrapping="Wrap" Text="50" VerticalAlignment="Top" Width="30" PreviewTextInput="PreviewTextInput" LostFocus="ValidateCount"/>
                     <Label Content="px" HorizontalAlignment="Left" Margin="397,102,0,0" VerticalAlignment="Top" Width="22" />
                     <Label Content="Line Width Variance" HorizontalAlignment="Left" Margin="238,129,0,0" VerticalAlignment="Top"/>
-                    <Slider x:Name="LineWidthVarianceSlider" HorizontalAlignment="Left" Margin="361,134,0,0" VerticalAlignment="Top" Maximum="3" TickPlacement="BottomRight" Minimum="1" Width="58" IsSnapToTickEnabled="False" IsMoveToPointEnabled="True"/>
+                    <Slider x:Name="LineWidthVarianceSlider" HorizontalAlignment="Left" Margin="361,134,0,0" VerticalAlignment="Top" Maximum="3" TickPlacement="BottomRight" Minimum="1" Width="58" IsSnapToTickEnabled="False" IsMoveToPointEnabled="True" Value="1.2"/>
                     <Label Content="Hide Filtered Results" HorizontalAlignment="Left" Margin="238,156,0,0" VerticalAlignment="Top"/>
                     <CheckBox Content="" Name="FilterTxtBx" HorizontalAlignment="Left" Margin="379,164,0,0" VerticalAlignment="Top"/>
                 </Grid>

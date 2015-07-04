@@ -45,6 +45,9 @@ namespace ParallelCordinates
         Button SettingsBtn;
         DisplayData GraphData;
 
+        SolidColorBrush FilterColor;
+        SolidColorBrush DisplayColor;
+
         // For the purpose of creating line density
         Dictionary<Tuple<Point, Point>, Pair<int, int>> PlacementDencity;
 
@@ -74,6 +77,9 @@ namespace ParallelCordinates
             // Pair.First => number of overlapping lines drawn
             // Pair.Second => number of non-filtered lines
             PlacementDencity = new Dictionary<Tuple<Point, Point>, Pair<int, int>>();
+
+            FilterColor = Brushes.LightGray;
+            DisplayColor = Brushes.DarkBlue;
 
             string[] unusedColumnNames = userData.Where(e => e.UniquEntries > MaxUniqueEntries && e.AllNumbers == false).Select(e => e.ColumnName).ToArray();
 
@@ -202,11 +208,15 @@ namespace ParallelCordinates
 
                     GraphData.GridData[upMouseColumnClick].FilteredColumn = true;
                 }
-                else // remove data filter for column
+                else if (GraphData.GridData[upMouseColumnClick].FilteredColumn) // remove data filter for column
                 {
                     GraphData.GridData[upMouseColumnClick].FilteredColumn = false;
                     GraphData.GridData[upMouseColumnClick].DisplayFilter.First = -1;
                     GraphData.GridData[upMouseColumnClick].DisplayFilter.Second = -1;
+                }
+                else
+                {
+                    return;
                 }
 
                 // Filter or free constraints based upon restrictions
@@ -430,7 +440,7 @@ namespace ParallelCordinates
                             continue;
                         }
 
-                        /*(FilteredDataEntryList[i] ? Brushes.LightGray : Brushes.DarkBlue)*/
+                        /*(FilteredDataEntryList[i] ? FilterColor : DisplayColor)*/
                         canvas.Children.Add(DrawLine(new Pen(GetColorGradiant(PlacementDencity[pointPositions[i][j]].Second / (Double)PlacementDencity[pointPositions[i][j]].First), Math.Pow(PlacementDencity[pointPositions[i][j]].First, VariableLineThickness) / GraphData.GridData.Count * TotalLineThickness), pointPositions[i][j].Item1, pointPositions[i][j].Item2));
 
                         PlacementDencity[pointPositions[i][j]].First = -1;
@@ -441,9 +451,9 @@ namespace ParallelCordinates
 
         SolidColorBrush GetColorGradiant(double percent)
         {
-            double r = Brushes.LightGray.Color.R + percent * (Brushes.DarkBlue.Color.R - Brushes.LightGray.Color.R);
-            double g = Brushes.LightGray.Color.G + percent * (Brushes.DarkBlue.Color.G - Brushes.LightGray.Color.G);
-            double b = Brushes.LightGray.Color.B + percent * (Brushes.DarkBlue.Color.B - Brushes.LightGray.Color.B);
+            double r = FilterColor.Color.R + percent * (DisplayColor.Color.R - FilterColor.Color.R);
+            double g = FilterColor.Color.G + percent * (DisplayColor.Color.G - FilterColor.Color.G);
+            double b = FilterColor.Color.B + percent * (DisplayColor.Color.B - FilterColor.Color.B);
 
             return new SolidColorBrush(Color.FromArgb(255, (byte)r, (byte)g, (byte)b));
         }

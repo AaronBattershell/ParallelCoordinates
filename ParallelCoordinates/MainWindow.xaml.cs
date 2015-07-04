@@ -37,7 +37,7 @@ namespace ParallelCordinates
                 try
                 {
                     UserData = new ExcelReader(fileSelector.FileName).ds;
-                    AverageLineWidthTxtBx.Text = ((int)(UserData.Count*0.5 + 0.5)).ToString();
+                    AverageLineWidthTxtBx.Text = (Math.Max((int)(UserData.Count*0.5 + 0.5), 5)).ToString();
                     DataInterpretationBtn.IsEnabled = true;
                     LaunchBtn.IsEnabled = true;
                     FileNameLbl.Content = fileSelector.FileName.Substring(fileSelector.FileName.LastIndexOf("\\") + 1);
