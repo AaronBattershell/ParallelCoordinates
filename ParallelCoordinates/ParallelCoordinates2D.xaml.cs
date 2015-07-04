@@ -32,7 +32,7 @@ namespace ParallelCordinates
         const double BORDER_DISTANCE = 50;
         const double NUMERIC_POINTS = 5;
         const double Y_COLUMN_OFFSET = - BORDER_DISTANCE / 2;
-        const double TEXT_OFFSET_X = 3;
+        const double TEXT_OFFSET_X = 3.65;
         const double TEXT_OFFSET_Y = - 25;
         const string EMPTY_FIELD = "[Not Available]";
 
@@ -160,8 +160,9 @@ namespace ParallelCordinates
                 Text = text,
                 Foreground = new SolidColorBrush(color),
                 Height = 30,
-                Width = 200,
-                Margin = new Thickness(location.X, location.Y, 0, 0)
+                Width = 300,
+                Margin = new Thickness(location.X, location.Y, 0, 0),
+                FontFamily = new FontFamily("Courier New")
             };
 
             return t;
@@ -362,13 +363,13 @@ namespace ParallelCordinates
 
         private void DrawColumnTextBackdrop()
         {
-            var semiTransparent = new SolidColorBrush(Color.FromArgb(160, 255, 255, 255));
+            var semiTransparent = new SolidColorBrush(Color.FromArgb(200, 220, 220, 220));
 
             for (int i = 0; i < GraphData.GridData.Count; ++i)
             {
                 foreach (var field in GraphData.GridData[i].YPlacements)
                 {
-                    canvas.Children.Add(DrawRectangle(new Point(GraphData.ColumnPositions[i].Top.X - field.Key.Length * TEXT_OFFSET_X, field.Value - 21.5), new Point(GraphData.ColumnPositions[i].Top.X + field.Key.Length * TEXT_OFFSET_X, field.Value - 31.5), semiTransparent, semiTransparent));
+                    canvas.Children.Add(DrawRectangle(new Point(GraphData.ColumnPositions[i].Top.X - field.Key.Length * TEXT_OFFSET_X, field.Value - 23.5), new Point(GraphData.ColumnPositions[i].Top.X + field.Key.Length * TEXT_OFFSET_X, field.Value - 33.5), semiTransparent, semiTransparent));
                 }
             }
         }
