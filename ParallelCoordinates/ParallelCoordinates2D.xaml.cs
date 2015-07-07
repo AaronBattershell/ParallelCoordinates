@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.IO;
+using System.Windows.Media.Converters;
 using DataReader;
 
 namespace ParallelCordinates
@@ -44,6 +45,7 @@ namespace ParallelCordinates
         Border SettingsGrid;
         Button SettingsBtn;
         DisplayData GraphData;
+        Rectangle AnimatedFilterDrag;
 
         SolidColorBrush FilterColor;
         SolidColorBrush DisplayColor;
@@ -78,6 +80,8 @@ namespace ParallelCordinates
             // Pair.Second => number of non-filtered lines
             PlacementDencity = new Dictionary<Tuple<Point, Point>, Pair<int, int>>();
 
+            this.MouseMove += new MouseEventHandler(mouseMove);
+            //AnimatedFilterDrag = DrawRectangle(new Point(-1, -1), new Point(-1, -1), Brushes.Red, Brushes.Red);
             FilterColor = Brushes.LightGray;
             DisplayColor = Brushes.DarkBlue;
 
@@ -186,8 +190,48 @@ namespace ParallelCordinates
             }
         }
 
+        private void mouseMove(object sender, MouseEventArgs e)
+        {
+            if (SettingsGrid.IsVisible || DownMouseColumnIndex == -1 || GraphData.GridData[DownMouseColumnIndex].FilteredColumn)
+            {
+                return;
+            }
+
+            // Todo: rather than creating a new rectangle every time, create one in the constructor and edit it's location 
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                canvas.Children.Remove(AnimatedFilterDrag);
+
+                Point hover = Mouse.GetPosition(canvas);
+                int hoverColumnIndex = GetColumn(hover);
+
+                // Animate column filter positioning
+                if (DownMouseColumnIndex == hoverColumnIndex)
+                {
+                    Point topLeft = new Point(GraphData.ColumnPositions[DownMouseColumnIndex].Top.X - Math.Min(30, CalculatedXStep / 3), GraphData.GridData[DownMouseColumnIndex].DisplayFilter.First);
+                    Point bottomRight = new Point(GraphData.ColumnPositions[hoverColumnIndex].Botumn.X + Math.Min(30, CalculatedXStep / 3), hover.Y);
+
+                    // If the points aren't properly positioned, make it so
+                    if (topLeft.Y > bottomRight.Y)
+                    {
+                        swap(ref topLeft, ref bottomRight);
+
+                        var a = topLeft.X;
+                        topLeft.X = bottomRight.X;
+                        bottomRight.X = a;
+                    }
+
+                    AnimatedFilterDrag = DrawRectangle(topLeft, bottomRight, Brushes.Black, Brushes.Transparent);
+                    AnimatedFilterDrag.IsHitTestVisible = false;
+                    canvas.Children.Add(AnimatedFilterDrag);
+                }
+            }
+        }
+
         private void mouseUP(object sender, RoutedEventArgs e)
         {
+            canvas.Children.Remove(AnimatedFilterDrag);
+
             if (SettingsGrid.IsVisible)
             {
                 return;

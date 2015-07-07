@@ -13,7 +13,7 @@
         ScrollViewer.VerticalScrollBarVisibility="Auto"
         ScrollViewer.HorizontalScrollBarVisibility="Auto"
         ScrollChanged="OnScrollMove">
-        <Canvas Name="canvas" MouseDown="mouseDown" MouseUp="mouseUP" Background="Transparent">
+        <Canvas Name="canvas" MouseDown="mouseDown" MouseUp="mouseUP" MouseMove="mouseMove" Background="Transparent">
             <Button Name="defaultSettingsBtn" Content="" Canvas.Left="10" Canvas.Top="10" Width="30" Height="30" Click="ShowGridSettings">
                 <Button.Background>
                     <ImageBrush ImageSource="Gear.png"/>
