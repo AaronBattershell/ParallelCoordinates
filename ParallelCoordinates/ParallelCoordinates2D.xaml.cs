@@ -42,6 +42,9 @@ namespace ParallelCordinates
 
         List<bool> FilteredDataEntryList;
 
+        List<Line> DatasetColumns;
+        List<TextBlock> DatasetColumnsHeaderText;
+
         Border SettingsGrid;
         Button SettingsBtn;
         DisplayData GraphData;
@@ -192,12 +195,12 @@ namespace ParallelCordinates
 
         private void mouseMove(object sender, MouseEventArgs e)
         {
-            if (SettingsGrid.IsVisible || DownMouseColumnIndex == -1 || GraphData.GridData[DownMouseColumnIndex].FilteredColumn)
+            if (SettingsGrid.IsVisible || DownMouseColumnIndex == -1)
             {
                 return;
             }
 
-            // Todo: rather than creating a new rectangle every time, create one in the constructor and edit it's location 
+            // Todo: rather than creating a new rectangle every time, create one in the constructor and edit its location 
             if (e.LeftButton == MouseButtonState.Pressed)
             {
                 canvas.Children.Remove(AnimatedFilterDrag);
@@ -205,8 +208,13 @@ namespace ParallelCordinates
                 Point hover = Mouse.GetPosition(canvas);
                 int hoverColumnIndex = GetColumn(hover);
 
+                Line draggedLine = DatasetColumns[DownMouseColumnIndex];
+                TextBlock draggedText = DatasetColumnsHeaderText[DownMouseColumnIndex];
+
+                DatasetColumns.ForEach(ee => ee.Stroke = Brushes.LightGray);
+
                 // Animate column filter positioning
-                if (DownMouseColumnIndex == hoverColumnIndex)
+                if (DownMouseColumnIndex == hoverColumnIndex && !GraphData.GridData[DownMouseColumnIndex].FilteredColumn)
                 {
                     Point topLeft = new Point(GraphData.ColumnPositions[DownMouseColumnIndex].Top.X - Math.Min(30, CalculatedXStep / 3), GraphData.GridData[DownMouseColumnIndex].DisplayFilter.First);
                     Point bottomRight = new Point(GraphData.ColumnPositions[hoverColumnIndex].Botumn.X + Math.Min(30, CalculatedXStep / 3), hover.Y);
@@ -225,6 +233,35 @@ namespace ParallelCordinates
                     AnimatedFilterDrag.IsHitTestVisible = false;
                     canvas.Children.Add(AnimatedFilterDrag);
                 }
+                else if (DownMouseColumnIndex != hoverColumnIndex) // Animate column drag
+                {
+                    int columnRightOfMouse = GetBetweenColumns(hover);
+                    Point columnTextPoint = new Point(hover.X - GraphData.GridData[DownMouseColumnIndex].ColumnName.Length * TEXT_OFFSET_X, -Y_COLUMN_OFFSET / 2 + (CalculatedXStep < 150 ? (DownMouseColumnIndex % 3) * 20 : 0));
+
+                    draggedLine.X1 = hover.X;
+                    draggedLine.X2 = hover.X;
+                    draggedText.Margin = new Thickness(columnTextPoint.X, columnTextPoint.Y, 0, 0);
+
+                    int rightOfClick = columnRightOfMouse == DownMouseColumnIndex ? columnRightOfMouse + 1 : columnRightOfMouse; 
+                    int leftOfClick = columnRightOfMouse - 1 == DownMouseColumnIndex ? columnRightOfMouse - 2 : columnRightOfMouse - 1;
+
+                    if (rightOfClick < GraphData.GridData.Count)
+                    {
+                        DatasetColumns[rightOfClick].Stroke = Brushes.Crimson;
+                    }
+                    if (leftOfClick >= 0)
+                    {
+                        DatasetColumns[leftOfClick].Stroke = Brushes.Crimson;
+                    }
+
+                    return;
+                }
+
+                Point normalColumnTextPoint = new Point(GraphData.ColumnPositions[DownMouseColumnIndex].Top.X - GraphData.GridData[DownMouseColumnIndex].ColumnName.Length * TEXT_OFFSET_X, -Y_COLUMN_OFFSET / 2 + (CalculatedXStep < 150 ? (DownMouseColumnIndex % 3) * 20 : 0));
+
+                draggedText.Margin = new Thickness(normalColumnTextPoint.X, normalColumnTextPoint.Y, 0, 0);
+                draggedLine.X1 = GraphData.ColumnPositions[DownMouseColumnIndex].Top.X;
+                draggedLine.X2 = GraphData.ColumnPositions[DownMouseColumnIndex].Top.X;
             }
         }
 
@@ -391,10 +428,19 @@ namespace ParallelCordinates
 
         private void DrawColumns()
         {
+            DatasetColumns = new List<Line>();
+            DatasetColumnsHeaderText = new List<TextBlock>();
+
             for (int i = 0; i < GraphData.GridData.Count; ++i)
             {
-                canvas.Children.Add(DrawLine(new Pen(Brushes.DarkGray, 1), GraphData.ColumnPositions[i].Top, GraphData.ColumnPositions[i].Botumn));
-                canvas.Children.Add(DrawText(GraphData.GridData[i].ColumnName, new Point(GraphData.ColumnPositions[i].Top.X - GraphData.GridData[i].ColumnName.Length * TEXT_OFFSET_X, -Y_COLUMN_OFFSET / 2 + (CalculatedXStep < 150 ? (i % 3) * 20 : 0)), Colors.Black));
+                // Add the vertical line for each datapoint column
+                DatasetColumns.Add(DrawLine(new Pen(Brushes.DarkGray, 1), GraphData.ColumnPositions[i].Top, GraphData.ColumnPositions[i].Botumn));
+                DatasetColumns.Last().IsHitTestVisible = false;
+                canvas.Children.Add(DatasetColumns.Last());
+                
+                // Add the text at the top of each datapoint column
+                DatasetColumnsHeaderText.Add(DrawText(GraphData.GridData[i].ColumnName, new Point(GraphData.ColumnPositions[i].Top.X - GraphData.GridData[i].ColumnName.Length * TEXT_OFFSET_X, -Y_COLUMN_OFFSET / 2 + (CalculatedXStep < 150 ? (i % 3) * 20 : 0)), Colors.Black));
+                canvas.Children.Add(DatasetColumnsHeaderText.Last());
 
                 if (GraphData.GridData[i].FilteredColumn)
                 {
