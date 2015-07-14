@@ -44,6 +44,7 @@ namespace ParallelCordinates
 
         List<Line> DatasetColumns;
         List<TextBlock> DatasetColumnsHeaderText;
+        List<Rectangle> DatasetColumnFilters;
 
         Border SettingsGrid;
         Button SettingsBtn;
@@ -84,7 +85,6 @@ namespace ParallelCordinates
             PlacementDencity = new Dictionary<Tuple<Point, Point>, Pair<int, int>>();
 
             this.MouseMove += new MouseEventHandler(mouseMove);
-            //AnimatedFilterDrag = DrawRectangle(new Point(-1, -1), new Point(-1, -1), Brushes.Red, Brushes.Red);
             FilterColor = Brushes.LightGray;
             DisplayColor = Brushes.DarkBlue;
 
@@ -131,7 +131,7 @@ namespace ParallelCordinates
             }
         }
 
-        private Line DrawLine(Pen p, Point p1, Point p2)
+        private Line DrawLine(Pen p, Point p1, Point p2, bool clickable = false)
         {
             Line l = new Line()
             {
@@ -140,13 +140,14 @@ namespace ParallelCordinates
                 X2 = p2.X,
                 Y2 = p2.Y,
                 StrokeThickness = p.Thickness,
-                Stroke = p.Brush
+                Stroke = p.Brush,
+                IsHitTestVisible = clickable
             };
 
             return l;
         }
 
-        private Rectangle DrawRectangle(Point topLeft, Point bottomRight, SolidColorBrush outline, SolidColorBrush fill)
+        private Rectangle DrawRectangle(Point topLeft, Point bottomRight, SolidColorBrush outline, SolidColorBrush fill, bool clickable = false)
         {
             Rectangle r = new Rectangle()
             {
@@ -154,13 +155,14 @@ namespace ParallelCordinates
                 Fill = fill,
                 Width = Convert.ToDouble(Math.Abs(bottomRight.X - topLeft.X)),
                 Height = Convert.ToDouble(Math.Abs(bottomRight.Y - topLeft.Y)),
-                Margin = new Thickness(topLeft.X, topLeft.Y, 0, 0)
+                Margin = new Thickness(topLeft.X, topLeft.Y, 0, 0),
+                IsHitTestVisible = clickable
             };
 
             return r;
         }
 
-        private TextBlock DrawText(string text, Point location, Color color)
+        private TextBlock DrawText(string text, Point location, Color color, bool clickable = false)
         {
             TextBlock t = new TextBlock()
             {
@@ -169,7 +171,8 @@ namespace ParallelCordinates
                 Height = 30,
                 Width = 300,
                 Margin = new Thickness(location.X, location.Y, 0, 0),
-                FontFamily = new FontFamily("Courier New")
+                FontFamily = new FontFamily("Courier New"),
+                IsHitTestVisible = clickable
             };
 
             return t;
@@ -189,7 +192,7 @@ namespace ParallelCordinates
             // Ensure that the column is currently not already selected
             if (GraphData.GridData[DownMouseColumnIndex].FilteredColumn == false)
             {
-                GraphData.GridData[DownMouseColumnIndex].DisplayFilter.First = downClick.Y; 
+                GraphData.GridData[DownMouseColumnIndex].DisplayFilter.First = downClick.Y;
             }
         }
 
@@ -211,7 +214,11 @@ namespace ParallelCordinates
                 Line draggedLine = DatasetColumns[DownMouseColumnIndex];
                 TextBlock draggedText = DatasetColumnsHeaderText[DownMouseColumnIndex];
 
-                DatasetColumns.ForEach(ee => ee.Stroke = Brushes.LightGray);
+                DatasetColumns.ForEach(ee => ee.Stroke = Brushes.DarkGray);
+                if (DatasetColumnFilters[DownMouseColumnIndex] != null)
+                {
+                    DatasetColumnFilters[DownMouseColumnIndex].Stroke = Brushes.Black;
+                }
 
                 // Animate column filter positioning
                 if (DownMouseColumnIndex == hoverColumnIndex && !GraphData.GridData[DownMouseColumnIndex].FilteredColumn)
@@ -256,6 +263,11 @@ namespace ParallelCordinates
 
                     return;
                 }
+                else
+                {
+                    DatasetColumnFilters[DownMouseColumnIndex].Stroke = Brushes.Crimson;
+                }
+
 
                 Point normalColumnTextPoint = new Point(GraphData.ColumnPositions[DownMouseColumnIndex].Top.X - GraphData.GridData[DownMouseColumnIndex].ColumnName.Length * TEXT_OFFSET_X, -Y_COLUMN_OFFSET / 2 + (CalculatedXStep < 150 ? (DownMouseColumnIndex % 3) * 20 : 0));
 
@@ -310,6 +322,14 @@ namespace ParallelCordinates
 
             // Check for column drag
             UpMouseColumnIndex = GetBetweenColumns(upClick);
+
+            // Move column back to original position incase of drag that doens't result in columns switching postions
+            if (DatasetColumns[DownMouseColumnIndex].X1 != GraphData.ColumnPositions[DownMouseColumnIndex].Top.X)
+            {
+                DatasetColumns[DownMouseColumnIndex].X1 = GraphData.ColumnPositions[DownMouseColumnIndex].Top.X;
+                DatasetColumns[DownMouseColumnIndex].X2 = GraphData.ColumnPositions[DownMouseColumnIndex].Botumn.X;
+                DatasetColumns.ForEach(ee => ee.Stroke = Brushes.DarkGray);
+            }
 
             if (UpMouseColumnIndex != -1 && DownMouseColumnIndex != -1 && !(UpMouseColumnIndex - 2 < DownMouseColumnIndex && UpMouseColumnIndex + 1 > DownMouseColumnIndex))
             {
@@ -431,8 +451,12 @@ namespace ParallelCordinates
             DatasetColumns = new List<Line>();
             DatasetColumnsHeaderText = new List<TextBlock>();
 
+            DatasetColumnFilters = new List<Rectangle>();
+
             for (int i = 0; i < GraphData.GridData.Count; ++i)
             {
+                DatasetColumnFilters.Add(null);
+
                 // Add the vertical line for each datapoint column
                 DatasetColumns.Add(DrawLine(new Pen(Brushes.DarkGray, 1), GraphData.ColumnPositions[i].Top, GraphData.ColumnPositions[i].Botumn));
                 DatasetColumns.Last().IsHitTestVisible = false;
@@ -446,7 +470,9 @@ namespace ParallelCordinates
                 {
                     Point topLeft = new Point(GraphData.ColumnPositions[i].Top.X - Math.Min(30, CalculatedXStep / 3), GraphData.GridData[i].DisplayFilter.First);
                     Point bottomRight = new Point(GraphData.ColumnPositions[i].Botumn.X + Math.Min(30, CalculatedXStep/3), GraphData.GridData[i].DisplayFilter.Second);
-                    canvas.Children.Add(DrawRectangle(topLeft, bottomRight, Brushes.Black, Brushes.Transparent));
+
+                    DatasetColumnFilters[DatasetColumnFilters.Count - 1] = DrawRectangle(topLeft, bottomRight, Brushes.Black, Brushes.Transparent);
+                    canvas.Children.Add(DatasetColumnFilters.Last());
                 }
             }
         }
