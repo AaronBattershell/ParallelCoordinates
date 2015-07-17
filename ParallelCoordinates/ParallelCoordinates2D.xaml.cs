@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.IO;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media.Converters;
 using DataReader;
 
@@ -26,6 +27,7 @@ namespace ParallelCordinates
         int MaxUniqueEntries;
         int TotalLineThickness;
 
+        bool MouseIsDown;
         bool HideFiltered;
         double CalculatedXStep;
         double settingsGearHeight = 10;
@@ -180,13 +182,15 @@ namespace ParallelCordinates
 
         private void mouseDown(object sender, RoutedEventArgs e)
         {
+            MouseIsDown = true;
+
+            // If the menu is open, don't register an event click
             if (SettingsGrid.IsVisible)
             {
                 return;
             }
-            
+
             Point downClick = Mouse.GetPosition(canvas);
-            
             DownMouseColumnIndex = GetColumn(downClick);
 
             // Ensure that the column is currently not already selected
@@ -198,8 +202,16 @@ namespace ParallelCordinates
 
         private void mouseMove(object sender, MouseEventArgs e)
         {
-            if (SettingsGrid.IsVisible || DownMouseColumnIndex == -1)
+            if (SettingsGrid.IsVisible || DownMouseColumnIndex == -1 || !MouseIsDown)
             {
+                return;
+            }
+
+            // Mouseup event on scrollbar that won't correctly fire mosueup event
+            if (MouseIsDown && e.LeftButton != MouseButtonState.Pressed)
+            {
+                MouseIsDown = false;
+                mouseUP(new object(), new RoutedEventArgs());
                 return;
             }
 
@@ -280,6 +292,7 @@ namespace ParallelCordinates
         private void mouseUP(object sender, RoutedEventArgs e)
         {
             canvas.Children.Remove(AnimatedFilterDrag);
+            MouseIsDown = false;
 
             if (SettingsGrid.IsVisible)
             {
@@ -352,6 +365,21 @@ namespace ParallelCordinates
             }
 
             UpMouseColumnIndex = -1;
+        }
+
+        private bool IsScrollbarClick(Point click)
+        {
+            if (canvasContainer.ComputedHorizontalScrollBarVisibility == Visibility.Visible)
+            {
+                double screenHeight = SystemParameters.FullPrimaryScreenHeight;
+                double clickY = click.Y;
+
+                MessageBox.Show("Screen height: " + screenHeight + ", click height: " + clickY, "Invalid Columns", System.Windows.MessageBoxButton.OK);
+
+                return screenHeight - clickY < 50;
+            }
+
+            return false;
         }
 
         private void ClearFilters()
