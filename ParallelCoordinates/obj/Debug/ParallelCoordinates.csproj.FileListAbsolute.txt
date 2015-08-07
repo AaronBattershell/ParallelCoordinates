@@ -73,3 +73,5 @@ C:\Users\Flander\ParallelCoordinates\ParallelCoordinates\bin\Debug\ParallelCordi
 C:\Users\Flander\ParallelCoordinates\ParallelCoordinates\bin\Debug\ParallelCordinates.pdb
 C:\Users\Flander\ParallelCoordinates\ParallelCoordinates\bin\Debug\Excel.dll
 C:\Users\Flander\ParallelCoordinates\ParallelCoordinates\obj\Debug\ParallelCordinates.exe
+C:\Users\Flander\Documents\test\ParallelCoordinates\ParallelCoordinates\bin\Debug\ParallelCordinates.exe.config
+C:\Users\Flander\Documents\test\ParallelCoordinates\ParallelCoordinates\obj\Debug\ParallelCordinates.pdb
